@@ -1,11 +1,16 @@
 import Crypto from "../models/cryptoModel.js";
 
+// controller for /stats endpoint
 const getStats = async (req, res) => {
   try {
     const { coin } = req.query;
 
-    if (!coin) return res.status(400).json({ error: "Coin is required." });
+    const allowedCoins = ["bitcoin", "ethereum", "matic-network"];
 
+    if (!coin || !allowedCoins.includes(coin))
+      return res.status(400).json({ error: "Coin is required." });
+
+    // get the latest data for the requested coin
     const latestData = await Crypto.findOne({ coin }).sort({
       timestamp: -1,
     });
