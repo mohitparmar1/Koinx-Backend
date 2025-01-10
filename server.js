@@ -18,6 +18,7 @@ app.get("/", (req, res) => {
   });
 });
 
+// fetch data every 2 hours
 cron.schedule("0 */2 * * *", fetchCryptoData);
 
 app.listen(PORT, () => {
